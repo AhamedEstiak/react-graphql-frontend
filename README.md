@@ -1,3 +1,3 @@
-# Advanced-React
+# Advanced-React-graphql
 
 frontend
