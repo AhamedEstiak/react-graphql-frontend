@@ -5,5 +5,5 @@ npm-debug.log
 yarn-error.log
 
 .idea
-.package-lock.json
+package-lock.json
 .next/
