@@ -34,7 +34,7 @@ class Items extends Component {
         return (
             <CenterStyle>
                 <Query query={GET_ALL_ITEMS_QUERY}>
-                    {({loading, error, data}) => {
+                    {({ loading, error, data }) => {
                         if (loading) return <p>loading...</p>;
                         if (error) return <p>Error: {error.message}</p>;
 
@@ -53,3 +53,4 @@ class Items extends Component {
 }
 
 export default Items;
+export { GET_ALL_ITEMS_QUERY };

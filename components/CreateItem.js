@@ -1,13 +1,37 @@
 import React, { Component } from 'react';
 import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
+import Router from 'next/router';
 import Form from "../components/styles/Form";
+import Error from "../components/ErrorMessage";
+
+const CREATE_ITEM_MUTATION = gql`
+    mutation CREATE_ITEM_MUTATION (
+        $title: String!
+            $description: String!
+            $price: Int!,
+            $image: String
+            $largeImage: String
+    ) {
+        createItem(
+            title: $title 
+            description: $description 
+            price: $price 
+            image: $image 
+            largeImage: $largeImage 
+        ) {
+         id   
+        }
+    }
+`;
 
 class CreateItem extends Component {
     state = {
-        title: '',
-        price: '',
-        description: '',
+        title: 'Best shoes',
+        price: '100',
+        description: 'Love this shoes',
+        image: 'dog.jpg',
+        largeImage: 'large-dog.jpg'
     }
 
     handleChange = (e) => {
@@ -20,8 +44,23 @@ class CreateItem extends Component {
 
   render() {
     return (
-      <Form>
-        <fieldset>
+        <Mutation mutation={CREATE_ITEM_MUTATION} variables={this.state}>
+        {(createItem, { loading, error }) => (
+            <Form onSubmit={async (e) => {
+                // Stop the form from submitting
+              e.preventDefault();
+            //   call the mutation
+            const res = await createItem();
+            // Change them to the single item page
+            console.log(res);
+            Router.push({
+                pathname: '/item',
+                query: { id: res.data.createItem.id }
+            })
+          }
+      }>
+      <Error error={error} /> 
+        <fieldset disabled={loading} aria-busy={loading}>
             <label htmlFor="title">
             Title
             <input 
@@ -54,8 +93,12 @@ class CreateItem extends Component {
             onChange={this.handleChange}
             />
             </label>
+            <button type="submit">Submit</button>
         </fieldset>
       </Form>
+        )}
+      
+      </Mutation>
     )
   }
 }
