@@ -8,10 +8,10 @@ import Error from "../components/ErrorMessage";
 const CREATE_ITEM_MUTATION = gql`
     mutation CREATE_ITEM_MUTATION (
         $title: String!
-            $description: String!
-            $price: Int!,
-            $image: String
-            $largeImage: String
+        $description: String!
+        $price: Int!,
+        $image: String
+        $largeImage: String
     ) {
         createItem(
             title: $title 

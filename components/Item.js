@@ -5,6 +5,7 @@ import ItemStyles from "./styles/ItemStyles";
 import Title from "./styles/Title";
 import PriceTag from "./styles/PriceTag";
 import formatMoney from "../lib/formatMoney";
+import DeleteItem from './DeleteItem';
 
 class Item extends Component {
   static propTypes = {
@@ -13,7 +14,7 @@ class Item extends Component {
 
   render() {
     const { item } = this.props;
-    console.log(item);
+    // console.log(item);
 
     return (
       <ItemStyles>
@@ -40,7 +41,7 @@ class Item extends Component {
             <a>Edit </a>
           </Link>
           <button>Add to Cart</button>
-          <button>Delete</button>
+          <DeleteItem id={item.id}>Delete Item</DeleteItem>
         </div>
       </ItemStyles>
     );
