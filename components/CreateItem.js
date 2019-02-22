@@ -27,11 +27,11 @@ const CREATE_ITEM_MUTATION = gql`
 
 class CreateItem extends Component {
     state = {
-        title: 'Best shoes',
-        price: '100',
-        description: 'Love this shoes',
+        title: '',
+        price: '',
+        description: '',
         image: '',
-        largeImage: 'large-dog.jpg'
+        largeImage: ''
     }
 
     handleChange = (e) => {
@@ -44,20 +44,22 @@ class CreateItem extends Component {
 
     uploadFile = async e => {
         const files = e.target.files;
-        const data = new FormData();
+        const data = new FormData(files[0]);
         data.append('file', files[0]);
         data.append('upload_preset', 'sickfits');
+        console.log('data', data);
+        console.log('files :', files[0]);
         
-        const res = await fetch('https://api.cloudinary.com/v1_1/estiak007/image/upload', {
-            method: 'POST',
-            body: data
-        });
-        const file = await res.json();
-        console.log(file);
-        this.setState({
-            image: file.secure_url,
-            largeImage: file.eager[0].secure_url
-        })
+        // const res = await fetch('https://api.cloudinary.com/v1_1/estiak007/image/upload', {
+        //     method: 'POST',
+        //     body: data
+        // });
+        // const file = await res.json();
+        // console.log(file);
+        // this.setState({
+        //     image: file.secure_url,
+        //     largeImage: file.eager[0].secure_url
+        // })
     };
 
   render() {

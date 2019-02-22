@@ -3,10 +3,12 @@ import {Query} from "react-apollo";
 import gql from "graphql-tag";
 import styled from "styled-components";
 import Item from "./Item";
+import Pagination from "./Pagination";
+import { perPage } from "../config";
 
 const GET_ALL_ITEMS_QUERY = gql`
-    query GET_ALL_ITEMS_QUERY {
-        items {
+    query GET_ALL_ITEMS_QUERY($skip: Int = 0, $first: Int = ${perPage}) {
+        items(skip: $skip, first: $first, orderBy: createdAt_DESC) {
             id
             title
             description
@@ -14,7 +16,7 @@ const GET_ALL_ITEMS_QUERY = gql`
             image
             largeImage
         }
-    }
+    } 
 `;
 
 const CenterStyle = styled.div`
@@ -33,7 +35,13 @@ class Items extends Component {
     render() {
         return (
             <CenterStyle>
-                <Query query={GET_ALL_ITEMS_QUERY}>
+                <Pagination page={this.props.page} />
+                <Query query={GET_ALL_ITEMS_QUERY} variables={{
+                    skip: this.props.page * perPage - perPage,
+                }}
+                // fetchPolicy="network-only"
+                partialRefetch={true}
+                >
                     {({ loading, error, data }) => {
                         if (loading) return <p>loading...</p>;
                         if (error) return <p>Error: {error.message}</p>;
@@ -47,6 +55,7 @@ class Items extends Component {
                         );
                     }}
                 </Query>
+                <Pagination page={this.props.page} />
             </CenterStyle>
         );
     }
